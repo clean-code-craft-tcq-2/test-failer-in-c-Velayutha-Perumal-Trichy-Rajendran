@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <alerter_stub.h>
+//#include <alerter_stub.h>
 
 #define YES 	(bool)1
 #define NO      (bool)0
