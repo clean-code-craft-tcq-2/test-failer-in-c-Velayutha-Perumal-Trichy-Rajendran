@@ -3,6 +3,8 @@
 #include <string.h>
 
 char colourMapInfo [25][32];
+enum rowNumber {FIRST_ROW, LAST_ROW=24};
+
 void printColorMap() {
     
     int i;
@@ -10,25 +12,31 @@ void printColorMap() {
 			printf("%s\n", colourMapInfo[i]);
     }
 }
-
-int frameColourMap (){
+int getRowWidth (enum rowNumber rowIndex)
+{
+	return strlen(colourMapInfo[rowIndex]);
+}
+void frameColourMap (){
 
 	const char* majorColor[] = {"White", "Red", "Black", "Yellow", "Violet"};
     const char* minorColor[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
 	
-	int i = 0, j = 0, rowWidth;
+	int i = 0, j = 0;
 	for(i = 0; i < 5; i++) {
         for(j = 0; j < 5; j++) {
-			rowWidth = sprintf (colourMapInfo[i * 5 + j], "%d | %s | %s", i * 5 + j, majorColor[i], minorColor[i]);	
+			sprintf (colourMapInfo[i * 5 + j], "%d | %s | %s", i * 5 + j, majorColor[i], minorColor[i]);	
         }
     }
-	return rowWidth;
 }
 
 int main() {
 	
-    int lastRowWidth = frameColourMap();
-	int firstRowWidth = strlen(colourMapInfo[0]);
+    int lastRowWidth, firstRowWidth;
+	
+	frameColourMap();
+	
+	firstRowWidth = getRowWidth( FIRST_ROW );
+	lastRowWidth  = getRowWidth( LAST_ROW );
 	
     assert(lastRowWidth == firstRowWidth);
 	printColorMap();
