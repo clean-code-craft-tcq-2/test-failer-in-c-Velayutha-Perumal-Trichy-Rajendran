@@ -4,15 +4,11 @@
 #define YES 	(bool)1
 #define NO      (bool)0
 
-bool networkIsEnable = YES;
+typedef int (*networkAlert)(float);
+
 int alertFailureCount = 0;
 
-void bypassNetwork ()
-{
-	networkIsEnable = NO;
-}
-
-int networkAlertStub(float celcius) {
+int networkAlertStubFailure(float celcius) {
     printf("ALERT: Temperature is %.1f celcius.\n", celcius);
     // Return 200 for ok
     // Return 500 for not-ok
@@ -20,15 +16,20 @@ int networkAlertStub(float celcius) {
     return 500;
 }
 
-void alertInCelcius(float farenheit) {
+int networkAlertStubSuccess(float celcius) {
+    printf("ALERT: Temperature is %.1f celcius.\n", celcius);
+    // Return 200 for ok
+    // Return 500 for not-ok
+    // stub always succeeds and returns 200
+    return 200;
+}
+
+void alertInCelcius(float farenheit, networkAlert sendAlert) {
     float celcius = (farenheit - 32) * 5 / 9;
 	int returnCode = 0;
-	if (networkIsEnable){
-		//Add network alert API here
-	}
-	else{
-		returnCode = networkAlertStub(celcius);
-	}
+	
+	returnCode = sendAlert(celcius);
+	
     if (returnCode != 200) {
         // non-ok response is not an error! Issues happen in life!
         // let us keep a count of failures to report
@@ -40,10 +41,9 @@ void alertInCelcius(float farenheit) {
 
 int main() {
 	
-	bypassNetwork();
-    alertInCelcius(400.5);
-    alertInCelcius(303.6);
-	assert (alertFailureCount == 2);
+    alertInCelcius(400.5, networkAlertStubFailure);
+    alertInCelcius(303.6, networkAlertStubSuccess);
+	assert (alertFailureCount == 1);
     printf("%d alerts failed.\n", alertFailureCount);
     printf("All is well (maybe!)\n");
     return 0;
