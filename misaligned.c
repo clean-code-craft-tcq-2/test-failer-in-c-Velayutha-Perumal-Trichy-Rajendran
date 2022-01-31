@@ -24,7 +24,7 @@ void frameColourMap (){
 	int i = 0, j = 0;
 	for(i = 0; i < 5; i++) {
         for(j = 0; j < 5; j++) {
-			sprintf (colourMapInfo[i * 5 + j], "%d\t%s\t%s", i * 5 + j, majorColor[i], minorColor[j]);	
+			sprintf (colourMapInfo[i * 5 + j], "%-3d\t%-7s\t%-7s", i * 5 + j, majorColor[i], minorColor[j]);	
         }
     }
 }
@@ -37,7 +37,7 @@ int main() {
 	
 	firstRowWidth = getRowWidth( FIRST_ROW );
 	lastRowWidth  = getRowWidth( LAST_ROW );
-	
+	printf ("%d : %d\n", firstRowWidth, lastRowWidth);
     assert(lastRowWidth == firstRowWidth);
 	printColorMap();
     printf("All is well (maybe!)\n");
