@@ -24,7 +24,7 @@ void frameColourMap (){
 	int i = 0, j = 0;
 	for(i = 0; i < 5; i++) {
         for(j = 0; j < 5; j++) {
-			sprintf (colourMapInfo[i * 5 + j], "%d | %s | %s", i * 5 + j, majorColor[i], minorColor[i]);	
+			sprintf (colourMapInfo[i * 5 + j], "%d\t%s\t%s", i * 5 + j, majorColor[i], minorColor[j]);	
         }
     }
 }
